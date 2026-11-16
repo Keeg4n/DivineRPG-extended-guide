@@ -4,11 +4,13 @@
 
 <div class="note"><b>Бездонный колчан</b> (<a href="../09-systems/9-1-aksessuary/">9.1</a>) может выпасть с любого монстра, убитого игроком: 0.4% + 0.2% за уровень Добычи, не больше 1%. С Вечного лучника - всегда.</div>
 
-- <a href="../07-mobs/7-1-obychnyy-mir/">7.1 Обычный мир</a>
-- <a href="../07-mobs/7-2-ad-i-kray/">7.2 Ад и Край</a>
-- <a href="../07-mobs/7-3-aysika/">7.3 Айсика</a>
-- <a href="../07-mobs/7-4-sumerechnye-miry/">7.4 Сумеречные миры</a>
-- <a href="../07-mobs/7-5-arkana-i-vezeya/">7.5 Аркана и Везея</a>
-- <a href="../07-mobs/7-6-pogoda-sumerechnyh-mirov/">7.6 Погода сумеречных миров <span class="tag">Новое</span></a>
-- <a href="../07-mobs/7-7-mini-bossy/">7.7 Мини-боссы <span class="tag">Новое</span></a>
-- <a href="../07-mobs/7-8-bestiariy/">7.8 Бестиарий <span class="tag">Новое</span></a>
+<ul class="sections">
+<li><a href="../07-mobs/7-1-obychnyy-mir/">7.1 Обычный мир</a></li>
+<li><a href="../07-mobs/7-2-ad-i-kray/">7.2 Ад и Край</a></li>
+<li><a href="../07-mobs/7-3-aysika/">7.3 Айсика</a></li>
+<li><a href="../07-mobs/7-4-sumerechnye-miry/">7.4 Сумеречные миры</a></li>
+<li><a href="../07-mobs/7-5-arkana-i-vezeya/">7.5 Аркана и Везея</a></li>
+<li><a href="../07-mobs/7-6-pogoda-sumerechnyh-mirov/">7.6 Погода сумеречных миров <span class="tag">Новое</span></a></li>
+<li><a href="../07-mobs/7-7-mini-bossy/">7.7 Мини-боссы <span class="tag">Новое</span></a></li>
+<li><a href="../07-mobs/7-8-bestiariy/">7.8 Бестиарий <span class="tag">Новое</span></a></li>
+</ul>
