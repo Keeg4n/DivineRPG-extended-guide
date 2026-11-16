@@ -70,6 +70,113 @@
     });
   }
 
+  // ---------------- images ----------------
+  var MAX_W = 1600, previews = {};
+
+  /** Path from the current page to the site root ("../../" on a chapter subpage). */
+  function toRoot() {
+    var rel = decodeURIComponent(location.pathname).slice(decodeURIComponent(ROOT.pathname).length).replace(/index\.html$/, "");
+    var depth = rel.split("/").filter(function (s) { return s; }).length;
+    return new Array(depth + 1).join("../");
+  }
+
+  /** Shrink to MAX_W wide and re-encode (WebP, PNG where the browser cannot): screenshots get several times smaller. */
+  function shrink(file) {
+    return new Promise(function (res, rej) {
+      var url = URL.createObjectURL(file), img = new Image();
+      img.onload = function () {
+        var k = Math.min(1, MAX_W / img.naturalWidth), c = document.createElement("canvas");
+        c.width = Math.round(img.naturalWidth * k);
+        c.height = Math.round(img.naturalHeight * k);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        c.toBlob(function (b) { b ? res(b) : rej(new Error("не удалось сжать картинку")); }, "image/webp", 0.9);
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); rej(new Error("это не картинка")); };
+      img.src = url;
+    });
+  }
+
+  function blobB64(b) {
+    return new Promise(function (res, rej) {
+      var r = new FileReader();
+      r.onload = function () { res(String(r.result).split(",")[1]); };
+      r.onerror = function () { rej(new Error("не удалось прочитать картинку")); };
+      r.readAsDataURL(b);
+    });
+  }
+
+  /** Upload a picture to docs/assets/img and return the tag to put into the text. */
+  function upload(file) {
+    var page = srcPath().replace(/\.md$/, "").replace(/\/index$/, "").replace(/[^a-zA-Z0-9-]+/g, "-") || "home";
+    var stamp = new Date().toISOString().replace(/[-:T]/g, "").slice(0, 14) + "-" + Math.random().toString(36).slice(2, 6);
+    var blob;
+    return shrink(file).then(function (b) {
+      blob = b;
+      return blobB64(b);
+    }).then(function (b64) {
+      var name = "assets/img/" + page + "-" + stamp + (blob.type === "image/webp" ? ".webp" : ".png");
+      return gh("/contents/" + encodeURI("docs/" + name), {
+        method: "PUT",
+        body: JSON.stringify({ message: "Guide: image " + name, content: b64, branch: BRANCH })
+      }).then(function () {
+        var src = toRoot() + name;
+        previews[src] = URL.createObjectURL(blob); // shown at once, before the site is rebuilt
+        return "<img src=\"" + src + "\" alt=\"скриншот\">";
+      });
+    });
+  }
+
+  function insertAt(ta, text) {
+    var a = ta.selectionStart, b = ta.selectionEnd;
+    ta.value = ta.value.slice(0, a) + text + ta.value.slice(b);
+    ta.selectionStart = ta.selectionEnd = a + text.length;
+    ta.dispatchEvent(new Event("input"));
+    ta.focus();
+  }
+
+  function addImages(ta, files) {
+    files = Array.prototype.filter.call(files || [], function (f) { return f && /^image\//.test(f.type); });
+    if (!files.length) return false;
+    toast("Загружаю картинку" + (files.length > 1 ? "и (" + files.length + ")" : "") + "...");
+    files.reduce(function (p, f) {
+      return p.then(function () { return upload(f); }).then(function (tag) { insertAt(ta, tag); });
+    }, Promise.resolve()).then(function () {
+      toast("Картинка загружена - не забудьте сохранить текст");
+    }).catch(function (e) { toast("Картинка не загрузилась: " + e.message, true); });
+    return true;
+  }
+
+  /** Ctrl+V of a screenshot, drag-and-drop of files and the "Картинка" button. */
+  function imageButton(ta) {
+    ta.addEventListener("paste", function (e) {
+      var items = e.clipboardData ? e.clipboardData.files : null;
+      if (items && items.length && addImages(ta, items)) e.preventDefault();
+    });
+    ta.addEventListener("dragover", function (e) { e.preventDefault(); });
+    ta.addEventListener("drop", function (e) {
+      if (e.dataTransfer && addImages(ta, e.dataTransfer.files)) e.preventDefault();
+    });
+    var input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.multiple = true;
+    input.style.display = "none";
+    input.addEventListener("change", function () { addImages(ta, input.files); input.value = ""; });
+    var wrap = document.createElement("span"); // the input is next to the button, not inside: its click must not reach the button again
+    wrap.appendChild(button("Картинка", "", function () { input.click(); }));
+    wrap.appendChild(input);
+    return wrap;
+  }
+
+  /** Saved text with fresh pictures: show them from memory until the site is rebuilt. */
+  function showPreviews(el) {
+    el.querySelectorAll("img").forEach(function (img) {
+      var src = img.getAttribute("src");
+      if (previews[src]) img.src = previews[src];
+    });
+  }
+
   // ---------------- page source ----------------
   function srcPath() {
     var tag = document.getElementById("guide-src");
@@ -247,12 +354,13 @@
       box.appendChild(ta);
       var hint = document.createElement("div");
       hint.className = "ge-hint";
-      hint.textContent = "Ctrl+Enter - сохранить, Esc - отмена. Жирный: <b>текст</b>, ссылка: <a href=\"...\">текст</a>.";
+      hint.textContent = "Ctrl+Enter - сохранить, Esc - отмена. Скриншот: Ctrl+V прямо сюда, перетащить файл или кнопка \"Картинка\". Жирный: <b>текст</b>, ссылка: <a href=\"...\">текст</a>.";
       box.appendChild(hint);
       var row = document.createElement("div");
       row.className = "ge-row";
       var commit = function () { store(el, src, before, ta.value, spot); };
       row.appendChild(button("Сохранить", "ge-primary", commit));
+      row.appendChild(imageButton(ta));
       row.appendChild(button("Отмена", "", cancelOpen));
       box.appendChild(row);
       el.appendChild(box);
@@ -289,6 +397,7 @@
     attempt(2).then(function () {
       open = null;
       el.innerHTML = after;
+      showPreviews(el);
       el.classList.add("ge-saved");
       toast("Сохранено. Сайт обновится примерно через минуту.");
     }).catch(function (e) {
@@ -320,6 +429,7 @@
             toast(e.status === 409 ? "Страницу успели изменить - закройте и откройте заново" : "Не сохранилось: " + e.message, true);
           }).then(function () { busy = false; });
         }));
+        row.appendChild(imageButton(ta));
         row.appendChild(button("Отмена", "", close));
         box.appendChild(row);
       });
@@ -345,7 +455,7 @@
     bar();
   }
 
-  window.guideEditorCheck = { locate: locate, sourceOf: sourceOf, editable: editable, selector: EDITABLE }; // for the self-check page
+  window.guideEditorCheck = { locate: locate, sourceOf: sourceOf, editable: editable, selector: EDITABLE, shrink: shrink }; // for the self-check page
 
   if (window.document$ && window.document$.subscribe) window.document$.subscribe(init);
   else if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
