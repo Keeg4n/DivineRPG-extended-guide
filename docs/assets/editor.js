@@ -345,6 +345,8 @@
     bar();
   }
 
+  window.guideEditorCheck = { locate: locate, sourceOf: sourceOf, editable: editable, selector: EDITABLE }; // for the self-check page
+
   if (window.document$ && window.document$.subscribe) window.document$.subscribe(init);
   else if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();
