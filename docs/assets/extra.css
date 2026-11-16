@@ -1,0 +1,23 @@
+/* Tags, notes and tables of the PDF guide, for the web and both themes */
+.md-typeset .tag { display: inline-block; font-size: .62rem; font-weight: 700; line-height: 1.5; color: #fff; background: #2e9d4f;
+  border-radius: .2rem; padding: 0 .35rem; margin-left: .25rem; vertical-align: .15em; letter-spacing: .02em; }
+.md-typeset .tag.ch { background: #3d7fd6; }
+.md-nav .tag { display: none; }
+.md-typeset .note, .md-typeset .new, .md-typeset .warn { border-left: .25rem solid; border-radius: .2rem; padding: .5rem .8rem; margin: .8rem 0; }
+.md-typeset .note { background: rgba(61, 127, 214, .10); border-color: #3d7fd6; }
+.md-typeset .new { background: rgba(46, 157, 79, .10); border-color: #2e9d4f; }
+.md-typeset .warn { background: rgba(224, 154, 42, .12); border-color: #e09a2a; }
+.md-typeset table:not([class]) { font-size: .72rem; }
+.md-typeset table:not([class]) th { white-space: nowrap; }
+.md-typeset td.n { white-space: nowrap; }
+.md-typeset .small { font-size: .7rem; opacity: .8; }
+.md-typeset .hero { text-align: center; padding: 1.5rem 0 1rem; }
+.md-typeset .hero .big { font-size: 2.2rem; font-weight: 700; line-height: 1.2; }
+.md-typeset .hero .sub { font-size: 1rem; margin-top: .4rem; opacity: .85; }
+.md-typeset .hero .ver { font-size: .75rem; margin-top: .8rem; opacity: .65; }
+.md-typeset ul.sections { columns: 2; column-gap: 2rem; }
+.md-typeset ul.sections li { break-inside: avoid; }
+@media screen and (max-width: 44.9375em) { .md-typeset ul.sections { columns: 1; } }
+.md-typeset h1.hero-title { text-align: center; font-size: 2.2rem; font-weight: 700; margin: 1.2rem 0 0; }
+.md-typeset h1.hero-title .headerlink { display: none; }
+.md-typeset .hero { padding-top: 0; }

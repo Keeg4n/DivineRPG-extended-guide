@@ -1,0 +1,32 @@
+/* In-place editor of the guide (assets/editor.js) */
+.ge-bar { position: fixed; left: 12px; bottom: 12px; z-index: 5; display: flex; gap: 6px; flex-wrap: wrap; }
+.ge-btn { font: 600 13px/1 var(--md-text-font, sans-serif); padding: 8px 12px; border-radius: 6px; border: 1px solid var(--md-default-fg-color--lighter);
+  background: var(--md-default-bg-color); color: var(--md-default-fg-color); cursor: pointer; box-shadow: 0 1px 4px rgba(0, 0, 0, .15); }
+.ge-btn:hover { border-color: var(--md-accent-fg-color); }
+.ge-btn.ge-pen { opacity: .35; font-size: 16px; padding: 6px 10px; }
+.ge-btn.ge-pen:hover { opacity: 1; }
+.ge-btn.ge-on, .ge-btn.ge-primary { background: var(--md-primary-fg-color); color: var(--md-primary-bg-color); border-color: transparent; }
+
+.ge-admin article.md-content__inner :is(p, li, h1, h2, h3, h4, h5, h6, td, th, div.note, div.new, div.sub, div.ver):hover {
+  outline: 2px dashed var(--md-accent-fg-color); outline-offset: 2px; cursor: text; }
+.ge-admin article.md-content__inner li:has(ul, ol):hover { outline: none; }
+.ge-saved { background: rgba(255, 193, 7, .15); }
+
+.ge-box { margin: 4px 0; }
+.ge-text { width: 100%; box-sizing: border-box; font: 14px/1.5 var(--md-code-font, monospace); padding: 8px; border-radius: 6px;
+  border: 1px solid var(--md-accent-fg-color); background: var(--md-default-bg-color); color: var(--md-default-fg-color); resize: vertical; }
+.ge-page { height: 65vh; }
+.ge-hint { font-size: 12px; opacity: .7; margin: 4px 0; font-weight: normal; }
+.ge-row { display: flex; gap: 8px; margin-top: 6px; }
+
+.ge-modal { position: fixed; inset: 0; z-index: 10; background: rgba(0, 0, 0, .45); display: flex; align-items: center; justify-content: center; padding: 16px; }
+.ge-dialog { background: var(--md-default-bg-color); color: var(--md-default-fg-color); border-radius: 8px; padding: 16px 20px; width: 420px; max-width: 100%;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, .3); }
+.ge-dialog.ge-wide { width: 960px; }
+.ge-dialog h3 { margin: 0 0 8px; }
+.ge-input { width: 100%; box-sizing: border-box; padding: 8px; font-size: 14px; border-radius: 6px; border: 1px solid var(--md-default-fg-color--lighter);
+  background: var(--md-default-bg-color); color: var(--md-default-fg-color); }
+
+.ge-toast { position: fixed; right: 16px; bottom: 16px; z-index: 11; max-width: 420px; padding: 10px 14px; border-radius: 6px; font-size: 14px;
+  background: #2e7d32; color: #fff; box-shadow: 0 4px 16px rgba(0, 0, 0, .3); }
+.ge-toast.ge-bad { background: #c62828; }

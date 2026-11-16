@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div id="guide-src" data-src="{{ page.file.src_uri if page and page.file else '' }}" hidden></div>
+  {{ super() }}
+{% endblock %}
