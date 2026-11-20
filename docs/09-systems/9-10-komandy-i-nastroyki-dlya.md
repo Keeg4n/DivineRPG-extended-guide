@@ -13,6 +13,7 @@
 <tr><td>tierFullReduction, tierSmallSlots</td><td>R0-R8</td><td>защита и слоты брони Странника</td></tr>
 <tr><td>upgradeR1FuelRealmiteIngots, coreForgeStones, coreShadowSpeed, upgradeR8Spirits, crownArcanaDamage</td><td>16; 8/12/8/8; 3; 1; 2</td><td>броня Странника (<a href="../../09-systems/9-4-bronya-strannika-i-nakovalnya/">9.4</a>)</td></tr>
 <tr><td>melee.*</td><td>-</td><td>подвиды оружия (<a href="../../08-items/8-1-obychnyy-mir-i-ad/">8.1</a>), melee.pvp - в бою с игроками</td></tr>
+<tr><td>enchants.* <span class="tag">Новое</span></td><td>все включены; номера 120-124</td><td>свои зачарования аддона (<a href="../../09-systems/9-13-altar-porchi/">9.13</a>): enabled - есть ли зачарование вообще, id - номер, остальное - числа. Проверка: с мечом в руке <code>/enchant &lt;игрок&gt; 120</code> Размах, <code>121 1-3</code> Ловкость, <code>122</code> Мощь, <code>123</code> Венец, <code>124</code> Озлобление; книга - <code>/give &lt;игрок&gt; enchanted_book 1 0 {StoredEnchantments:[{id:121s,lvl:3s}]}</code></td></tr>
 <tr><td>blitzDustPerShot, jungleDebuffSpeed, netherSmeltChance, bedrockStanceTicks</td><td>5, 2, 25%, 2 с/5 с</td><td>оружие и сеты (8.1, 8.2)</td></tr>
 <tr><td>skythernGust, mortumSoulChance, miniBosses, miniBossMinutes</td><td>true, 25%, true, 20</td><td>погода и мини-боссы (7.6, 7.7)</td></tr>
 <tr><td>arcanaChests, arcanaChestChance, arcanaChestPity, arcanaChestRegion</td><td>-</td><td>сундуки Арканы (<a href="../../04-nether_end_arcana/4-4-arkana-vhod-bossy-sunduki/">4.4</a>)</td></tr>
